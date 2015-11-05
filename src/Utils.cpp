@@ -12,14 +12,14 @@ namespace Utils{
 		std::string line;
 		std::ifstream myfile(file);
 		setlocale(LC_NUMERIC, "C");
-		int sub=0;
-		#ifdef WIN32
-			sub=1;
-		#endif
-		
-		#ifdef __unix__
-			sub=2;
-		#endif
+		int sub = 0;
+#ifdef WIN32
+		sub = 1;
+#endif
+
+#ifdef __unix__
+		sub = 2;
+#endif
 
 		if (myfile.is_open())
 		{
@@ -32,14 +32,12 @@ namespace Utils{
 				if (pos != -1){
 					//exist
 					std::string type = line.substr(0, pos);
-	
-					std::string value = line.substr(pos + 1, line.length()-type.length()-sub);
-					std::cout << type <<"\n";
-					std::cout << value <<"\n";
+
+					std::string value = line.substr(pos + 1, line.length() - type.length() - sub);
 					if (type == "firstTime"){
 						if (value == "yes"){
 							firstTime = true;
-						}	
+						}
 						else{
 							if (value == "no"){
 								firstTime = false;
@@ -60,10 +58,10 @@ namespace Utils{
 								try{
 
 									threshold = std::stof(value);
-									if(threshold >1 || threshold < 0) return false;
-									
+									if (threshold >1 || threshold < 0) return false;
+
 								}
-								catch(...){
+								catch (...){
 									return false;
 								}
 							}
@@ -71,15 +69,15 @@ namespace Utils{
 					}
 				}
 			}
-					std::cout << "camera: "<<camera<<std::endl;
+			/*std::cout << "camera: "<<camera<<std::endl;
 			std::cout << "thresh: " << threshold << std::endl;
-			std::cout << "first: " << firstTime << std::endl;
+			std::cout << "first: " << firstTime << std::endl;*/
 			myfile.close();
 		}
 
 		else{
 			std::cout << "Unable to open file :(";
-			return false; 
+			return false;
 		}
 		return true;
 	}
@@ -91,9 +89,9 @@ namespace Utils{
 			//printf("saved as camera %s", camera);
 			std::string ft = "no";
 			if (firstTime)ft = "yes";
-			myfile << "firstTime:" + ft + "\n";
+			/*myfile << "firstTime:" + ft + "\n";
 			myfile << "camera:" + camera + "\n";
-			myfile << "threshold:" + threshold + "\n";
+			myfile << "threshold:" + threshold + "\n";*/
 		}
 		else{
 			std::cout << "Unable to open file ):";
