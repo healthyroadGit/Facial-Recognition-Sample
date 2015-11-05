@@ -19,9 +19,8 @@ QT5_WRAP_UI(UIS_HDRS
 	src/validate.ui
 	src/viewdialog.ui
 	src/loadingscreen.ui
-
 )
-
+QT5_ADD_RESOURCES(resources src/sample.qrc)
 message("Binary directory ${FacialRecognitionSample_BINARY_DIR}")
 
 set( EXECUTABLE_OUTPUT_PATH 
@@ -37,10 +36,16 @@ set(sample_sources
 	src/adddialog.h src/ApplicationManager.h src/instalationdialog.h src/sample.h src/settings.h src/Utils.h src/validate.h src/viewdialog.h
 	src/adddialog.cpp src/ApplicationManager.cpp src/instalationdialog.cpp src/sample.cpp src/settings.cpp src/Utils.cpp src/validate.cpp src/viewdialog.cpp
 
+	src/CameraUtilities.h src/CameraUtilities.cpp
 )
 
-add_executable(FacialRecognitionSample WIN32 ${sample_sources} ${UIS_HDRS} )
-
+add_executable(FacialRecognitionSample ${sample_sources} ${UIS_HDRS} ${resources})
+qt5_use_modules(FacialRecognitionSample Widgets)
 include_directories(${HRDSDK_DIR}/include)
-target_link_libraries(FacialRecognitionSample Qt5::Widgets ${HRDSDK_DIR}/lib/HrDLib.lib ${OpenCV_LIBS})
+if(WIN32)
+	target_link_libraries(FacialRecognitionSample  ${HRDSDK_DIR}/lib/HrDLib.lib ${OpenCV_LIBS})
+endif(WIN32)
+if(UNIX)
+	target_link_libraries(FacialRecognitionSample  ${HRDSDK_DIR}/lib/libHrDLib.so ${OpenCV_LIBS})
+endif(UNIX)
 

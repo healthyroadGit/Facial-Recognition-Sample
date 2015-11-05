@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="Sample">
+    <file>sample.qrc</file>
+    <file>Resources/appIcon.ico</file>
+    <file>Resources/appIcon.png</file>
+  </qresource>
+</RCC>

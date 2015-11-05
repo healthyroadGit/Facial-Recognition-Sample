@@ -2,12 +2,9 @@
 #include "ApplicationManager.h"
 #include <sstream>
 #include "Utils.h"
-#include <opencv2\opencv.hpp>
 #include "validate.h"
 #include "Utils.h"
-
-#include <dshow.h>
-#pragma comment(lib, "strmiids")
+#include "CameraUtilities.h"
 
 Settings::Settings(HrDLib* hrdx, void** imgx, bool firstTimex, QWidget *parent)
 : QDialog(parent)
@@ -23,65 +20,21 @@ Settings::~Settings()
 {
 
 }
-HRESULT EnumerateDevices(REFGUID category, IEnumMoniker **ppEnum)
+
+
+QStringList getCameras()
 {
-	// Create the System Device Enumerator.
-	ICreateDevEnum *pDevEnum;
-	HRESULT hr = CoCreateInstance(CLSID_SystemDeviceEnum, NULL,
-		CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pDevEnum));
+	QStringList list;
+	auto cams = cameraUtils::getCameras();
 
-	if (SUCCEEDED(hr))
+	//auto cameras = QCameraInfo::availableCameras();
+	if (cams.empty())
+		QMessageBox::information(NULL, "msg", "is empty", QMessageBox::Ok);
+	for (auto & cam : cams)
 	{
-		// Create an enumerator for the category.
-		hr = pDevEnum->CreateClassEnumerator(category, ppEnum, 0);
-		if (hr == S_FALSE)
-		{
-			hr = VFW_E_NOT_FOUND;  // The category is empty. Treat as an error.
-		}
-		pDevEnum->Release();
+		list << QString::fromStdString(cam);
 	}
-	return hr;
-}
-
-QStringList DisplayDeviceInformation(IEnumMoniker *pEnum)
-{
-	QStringList device;
-	IMoniker *pMoniker = NULL;
-	//device.push_back("---");
-	while (pEnum->Next(1, &pMoniker, NULL) == S_OK)
-	{
-		IPropertyBag *pPropBag;
-		HRESULT hr = pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPropBag));
-		if (FAILED(hr))
-		{
-			pMoniker->Release();
-			continue;
-		}
-
-		VARIANT var;
-		VariantInit(&var);
-
-		// Get description or friendly name.
-		hr = pPropBag->Read(L"Description", &var, 0);
-		if (FAILED(hr))
-		{
-			hr = pPropBag->Read(L"FriendlyName", &var, 0);
-		}
-		if (SUCCEEDED(hr))
-		{
-			std::wstring ws(var.bstrVal, SysStringLen(var.bstrVal));
-			std::string str(ws.begin(), ws.end());
-			device.push_back(QString::fromStdString(str));
-			//printf("%S\n", var.bstrVal);
-			VariantClear(&var);
-		}
-
-		hr = pPropBag->Write(L"FriendlyName", &var);
-
-		pPropBag->Release();
-		pMoniker->Release();
-	}
-	return device;
+	return list;
 }
 
 
@@ -173,15 +126,10 @@ void Settings::checkSave(){
 }
 
 void Settings::initailize(){
-	IEnumMoniker *pEnum;
-	HRESULT hr = EnumerateDevices(CLSID_VideoInputDeviceCategory, &pEnum);
-	if (SUCCEEDED(hr))
-	{
-		device = DisplayDeviceInformation(pEnum);
-		pEnum->Release();
-		device.append("IP Camera");
-		ui.cbxDevices->addItems(device);
-	}
+	device = getCameras();
+	device.append("IP Camera");
+	ui.cbxDevices->addItems(device);
+
 
 	
 	ui.btnSave->setText(QString::fromStdString("Validate\nand save"));

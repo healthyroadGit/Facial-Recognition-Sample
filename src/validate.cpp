@@ -68,7 +68,7 @@ void detectHnS(cv::Mat &yo, cv::Rect &HNS, cv::CascadeClassifier HnSDetector){
 		HNS = rect[0];
 }
 
-void detectEye(cv::Mat &eyemat, cv::Rect &eye, cv::CascadeClassifier eyecascade){
+void detectEye(cv::Mat const &eyemat, cv::Rect &eye, cv::CascadeClassifier eyecascade){
 	vector<cv::Rect> rect;
 	float dim = max(eyemat.rows, eyemat.cols);
 	//int min = dim / 5;

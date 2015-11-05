@@ -1,0 +1,3 @@
+firstTime:no
+camera:0
+threshold:0,8

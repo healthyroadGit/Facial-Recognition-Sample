@@ -4,12 +4,23 @@
 #include <sstream>
 #include <QPainter>
 #include <QPainter>
+#include <clocale>
 
 namespace Utils{
 
 	bool readPropertiesFile(bool& firstTime, std::string& camera, float& threshold, std::string file){
 		std::string line;
 		std::ifstream myfile(file);
+		setlocale(LC_NUMERIC, "C");
+		int sub=0;
+		#ifdef WIN32
+			sub=1;
+		#endif
+		
+		#ifdef __unix__
+			sub=2;
+		#endif
+
 		if (myfile.is_open())
 		{
 			firstTime = true;
@@ -21,19 +32,24 @@ namespace Utils{
 				if (pos != -1){
 					//exist
 					std::string type = line.substr(0, pos);
-					std::string value = line.substr(pos + 1, line.length());
+	
+					std::string value = line.substr(pos + 1, line.length()-type.length()-sub);
+					std::cout << type <<"\n";
+					std::cout << value <<"\n";
 					if (type == "firstTime"){
 						if (value == "yes"){
 							firstTime = true;
-						}
+						}	
 						else{
-							if (firstTime = "no"){
+							if (value == "no"){
 								firstTime = false;
 							}
 							else{
+
 								return false;
 							}
 						}
+
 					}
 					else{
 						if (type == "camera"){
@@ -42,19 +58,22 @@ namespace Utils{
 						else{
 							if (type == "threshold"){
 								try{
+
 									threshold = std::stof(value);
+									if(threshold >1 || threshold < 0) return false;
+									
 								}
-								catch(_exception){
+								catch(...){
 									return false;
 								}
 							}
 						}
 					}
 				}
-			}/*
-			std::cout << "camera: "<<camera<<std::endl;
+			}
+					std::cout << "camera: "<<camera<<std::endl;
 			std::cout << "thresh: " << threshold << std::endl;
-			std::cout << "first: " << firstTime << std::endl;*/
+			std::cout << "first: " << firstTime << std::endl;
 			myfile.close();
 		}
 
@@ -65,7 +84,7 @@ namespace Utils{
 		return true;
 	}
 
-	bool updatePropertiesFile(bool firstTime, std::string& camera, std::string& threshold, std::string file){
+	bool updatePropertiesFile(bool firstTime, std::string const & camera, std::string const & threshold, std::string file){
 		std::ofstream myfile(file);
 		if (myfile.is_open())
 		{

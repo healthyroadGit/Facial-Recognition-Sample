@@ -7,7 +7,7 @@
 #include <QPixmap>
 #include <QTimer>
 #include <QTime>
-#include "opencv2\opencv.hpp"
+#include <opencv2/opencv.hpp>
 
 /**This class is used to validade the camera attending to quality, distance, resolution, etc...*/
 class Validate : public QDialog
