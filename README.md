@@ -2,6 +2,8 @@
 HealthyRoad® 2015
 
 
+
+
 This is a sample created with the objective of demonstrating the functionalities of our SDK in the facial recognition area.
 
 Compiled executables can be found in the HealthyRoad Developer Zone [(click here)](http://www.healthyroad.pt/devcenter/en/index.php).
@@ -66,3 +68,6 @@ Camera selection, camera validation and user creation are key for the sample to 
 ## Having trouble being recognized?
 
 Check out the website for more information on how to train correctly
+
+## Note
+Note that in Linux, due to OpenCV, the cameras might only work the first time you change them. Restarting the application will make them work again.
