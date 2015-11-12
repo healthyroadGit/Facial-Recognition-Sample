@@ -89,9 +89,9 @@ namespace Utils{
 			//printf("saved as camera %s", camera);
 			std::string ft = "no";
 			if (firstTime)ft = "yes";
-			/*myfile << "firstTime:" + ft + "\n";
+			myfile << "firstTime:" + ft + "\n";
 			myfile << "camera:" + camera + "\n";
-			myfile << "threshold:" + threshold + "\n";*/
+			myfile << "threshold:" + threshold + "\n";
 		}
 		else{
 			std::cout << "Unable to open file ):";
