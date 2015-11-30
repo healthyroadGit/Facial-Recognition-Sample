@@ -1,12 +1,12 @@
-# HealthyRoad - Facial Recognition Sample
-HealthyRoad® 2015
+# IncredibleEye - Facial Recognition Sample
+IncredibleEye 2015
 
 
 
 
 This is a sample created with the objective of demonstrating the functionalities of our SDK in the facial recognition area.
 
-Compiled executables can be found in the HealthyRoad Developer Zone [(click here)](http://www.healthyroad.pt/devcenter/en/index.php).
+Compiled executables can be found in the IncredibleEye Developer Zone [(click here)](http://www.incredibleye.com/samplefr.php).
 
 
 ## Prerequisites
@@ -15,7 +15,7 @@ You'll need to install:
 - Qt 5.4.x
 - CMake 2.8.11+
 - OpenCV 2.4.x
-- HealthyRoad SDK
+- IncredibleEye SDK
 
 
 ## Building
@@ -50,13 +50,13 @@ where the path leads to the directory containing Qt's /bin directory.
 
 To run the generated executable, you'll need to place the following files and directories in the same directory as the executable:
 
-- config (from the HealthyRoad SDK)
-- shared (from the HealthyRoad SDK)
-- plugins (from the HealthyRoad SDK) (not needed on Linux)
-- platforms (from the HealthyRoad SDK)
+- config (from the IncredibleEye SDK)
+- shared (from the IncredibleEye SDK)
+- plugins (from the IncredibleEye SDK) (not needed on Linux)
+- platforms (from the IncredibleEye SDK)
 - Resources (available here in the /src directory)
 - properties.txt file
-- (If running on Windows) the .dll files from the HealthyRoad SDK
+- (If running on Windows) the .dll files from the IncredibleEye SDK
 
 
 ## Using the application
